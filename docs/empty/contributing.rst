@@ -1,0 +1,7 @@
+.. contributing
+
+===========
+Contibuting
+===========
+
+aww yeah

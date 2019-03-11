@@ -1,0 +1,48 @@
+# Editor files
+*.*~
+./#*
+*.swp
+.vscode/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build
+dist
+*.egg
+*.egg-info
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# virtualenv
+.venv
+venv/
+ENV/
+
+# Testing
+.cache/
+.coverage
+.pytest_cache/
+
+# Unit test / coverage reports
+.cache/
+.coverage
+.pytest_cache/
+.tox/
+
+# macOS
+.DS_Store
+
+# Sphinx documentation
+docs/_build/
+
+# pyenv
+.python-version
+
+# Rope project settings
+.ropeproject
