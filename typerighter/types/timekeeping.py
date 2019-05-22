@@ -17,8 +17,8 @@ REGEX_FROM_ISO8601 = r"""(?P<year>\d{4})-(?P<month>\d\d)-(?P<day>\d\d)(?:T|\ )
 
 REGEX_TO_ISO8601 = '%Y-%m-%dT%H:%M:%S.%f%z'
 
-REGEX_FROM_TIME = r"""(?P<hour>\d\d):(?P<minute>\d\d)(?::(?P<second>\d\d)(?:(?:\.|,)
-    (?P<sec_frac>\d{1,6}))?)"""
+REGEX_FROM_TIME = r"""(?P<hour>\d\d):(?P<minute>\d\d)
+    (?::(?P<second>\d\d)(?:(?:\.|,)(?P<sec_frac>\d{1,6}))?)?$"""
 
 
 # Types
@@ -34,6 +34,7 @@ class DateTimeType(primitives.Primitive):
     def validate(self, value):
         super().validate(value)
     
+    @base.skip_falsy
     def to_native(self, value):
         if self.is_type_match(value):
             return value
@@ -71,6 +72,7 @@ class DateTimeType(primitives.Primitive):
             p('second'), microsecond, tz
         )
 
+    @base.skip_falsy
     def to_primitive(self, value, context=None):
         if isinstance(value, str) and self._regex.match(value):
             return value
@@ -91,6 +93,7 @@ class TimeType(primitives.Primitive):
     def validate(self, value):
         super().validate(value)
 
+    @base.skip_falsy
     def to_native(self, value):
         if isinstance(value, self.NATIVE):
             return value
@@ -102,6 +105,7 @@ class TimeType(primitives.Primitive):
                 parts[k] = int(v)
         return datetime.time(**parts)
 
+    @base.skip_falsy
     def to_primitive(self, value):
         if isinstance(value, self.NATIVE):
             return value.isoformat()
