@@ -250,3 +250,18 @@ def test_records_validate_records_as_fielda():
 
     tr2 = TestRecord()
     tr2.validate(types.Unset)
+
+
+def test_records_conversion_includes_defaults():
+    class TestRecord(types.Record):
+        s1 = types.StringType(default='foo')
+
+    tr1 = TestRecord()
+    assert tr1.to_native({}) == {'s1': 'foo'}
+    assert tr1.to_primitive({}) == {'s1': 'foo'}
+
+    tr2 = TestRecord(default={'meow': 'woof'})
+
+    assert tr2.to_native(types.Unset) == {'meow': 'woof'}
+    assert tr2.to_primitive(types.Unset) == {'meow': 'woof'}
+    assert tr2.to_primitive({}) == {'s1': 'foo'}
