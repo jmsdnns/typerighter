@@ -74,21 +74,27 @@ class Record(base.Type, metaclass=RecordMeta):
             yield field_name, type_instance
 
     def _filter(self, value, fields=None):
-        # by default, return any found values
-        returnable = lambda f: f in value
+        for field_name, field_type in self:
+            # Field name is in fields list and has a value
+            if fields and field_name in fields and field_name in value:
+                yield field_name, field_type
+            # Field name has value
+            elif field_name in value:
+                yield field_name, field_type
+            # Field can provide a value
+            elif field_type.default:
+                yield field_name, field_type
 
-        # filter inside scope of fields list
-        if fields and isinstance(fields, list):
-            returnable = lambda f: f in fields and f in value
-
-        for field, type in self:
-            if returnable(field):
-                yield field, type
-    
     def _convert(self, value, converter, fields=None):
         for fn, ti in self._filter(value, fields=fields):
-            v = converter(value[fn], ti)
-            yield fn, v
+            if fields and fn in fields and fn in value:
+                v = converter(value[fn], ti)
+                yield fn, v
+            elif fn in value:
+                v = converter(value[fn], ti)
+                yield fn, v
+            elif fn not in value and ti.default is not base.Unset:
+                yield fn, ti.default
     
     @base.skip_falsy
     def to_primitive(self, value, **convert_args):
