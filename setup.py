@@ -29,6 +29,7 @@ setup(
         ], 
         'docs': [
             'sphinx',
+            'sphinx_rtd_theme',
             'doc8'
         ]
     },
