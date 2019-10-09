@@ -1,7 +1,0 @@
-.. types
-
-=====
-Types
-=====
-
-aww yeah

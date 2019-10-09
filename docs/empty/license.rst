@@ -1,7 +1,0 @@
-.. license
-
-=======
-License
-=======
-
-aww yeah

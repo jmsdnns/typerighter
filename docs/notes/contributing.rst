@@ -1,4 +1,4 @@
-.. contributing
+.. notes_contributing
 
 ===========
 Contibuting

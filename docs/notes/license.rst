@@ -1,7 +1,7 @@
-.. testing
+.. notes_license
 
 =======
-Testing
+License
 =======
 
 aww yeah
