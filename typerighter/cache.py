@@ -1,5 +1,4 @@
 import inspect
-import importlib
 
 from .exceptions import CacheMissException, UncachableException
 
@@ -44,10 +43,10 @@ class TypeCache(object, metaclass=CacheMeta):
 
     def add(self, item):
         type_name = item.__name__
-        
+
         if not inspect.isclass(item):
             return False
-        
+
         # By storing the first added `Type` as `_basetype`, we leverage the
         # convenience of `Type` being defined immediately after the first
         # metaclass to use `TypeCache`.

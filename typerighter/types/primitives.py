@@ -18,7 +18,7 @@ class Primitive(base.Type):
 
 class BooleanType(Primitive):
     NATIVE = bool
-    
+
     def to_primitive(self, value):
         if isinstance(value, bool):
             return value
@@ -50,21 +50,21 @@ class StringType(Primitive):
     def __init__(self, max_length=None, min_length=None, regex=None, **kw):
         super().__init__(**kw)
         domains.LengthDomain(self, max_length, min_length)
-        
+
         self.regex = regex
 
         if self.regex:
             try:
                 compiled = re.compile(self.regex)
                 self._regex = compiled
-            except:
+            except Exception:
                 err_msg = "Regex failed to compile: {}"
                 raise exceptions.TypeException(
                     err_msg.format(self.regex)
                 )
 
     def is_falsy(self, value):
-        if value == None or value == "":
+        if value is None or value == "":
             return True
 
         return super().is_falsy(value)
@@ -76,7 +76,7 @@ class StringType(Primitive):
         try:
             p = str(value)
             return p
-        except:
+        except Exception:
             err_msg = "Could not convert to string: {}"
             raise exceptions.TypeException(
                 err_msg.format(err_msg.format(value))

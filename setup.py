@@ -24,7 +24,7 @@ setup(
             'pytest',
             'pytest-cov',
             'pycodestyle',
-            'pylint',
+            'flake8',
             'tox'
         ], 
         'docs': [

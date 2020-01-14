@@ -1,0 +1,4 @@
+[flake8]
+ignore =
+    # E731: Do not assign a lambda expression
+    E731

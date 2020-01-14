@@ -97,7 +97,7 @@ class RegexDomain(Domain):
             try:
                 compiled = re.compile(instance.regex, *compile_args)
                 instance._regex = compiled
-            except:
+            except Exception:
                 err_msg = "Regex failed to compile: {}"
                 raise exceptions.TypeException(
                     err_msg.format(instance.regex)

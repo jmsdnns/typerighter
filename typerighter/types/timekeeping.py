@@ -33,7 +33,7 @@ class DateTimeType(primitives.Primitive):
     @base.skip_falsy
     def validate(self, value):
         super().validate(value)
-    
+
     @base.skip_falsy
     def to_native(self, value):
         if self.is_type_match(value):
@@ -49,12 +49,21 @@ class DateTimeType(primitives.Primitive):
             e_msg = "Value did not match date pattern: {}"
             raise exceptions.TypeException(e_msg.format(value))
 
-        # Extract components
-        parts = dict(((k, v) for k, v in match.groupdict().items() if v is not None))
+        # Map of regex keys that had values
+        parts = {k: v for k, v in match.groupdict().items() if v is not None}
+
+        # Accessor for regex parts as numbers
         p = lambda name: int(parts.get(name, 0))
-        microsecond = p('sec_frac') and p('sec_frac') * 10 ** (6 - len(parts['sec_frac']))
+
+        # Microseconds
+        microsecond = 0
+        if 'sec_frac' in parts:
+            sec_frac = p('sec_frac')
+            sf_len = sec_frac and len(parts['sec_frac'])
+            microsecond = sec_frac and sec_frac * 10 ** (6 - sf_len)
 
         # Timezones
+        tz = None
         if 'tzd_utc' in parts:
             tz = datetime.timezone.utc
         elif 'tzd_offset' in parts:
@@ -64,8 +73,6 @@ class DateTimeType(primitives.Primitive):
                 tz = datetime.timezone.utc
             else:
                 tz = datetime.timezone(datetime.timedelta(minutes=tz_offset))
-        else:
-            tz = None
 
         return self.NATIVE(
             p('year'), p('month'), p('day'), p('hour'), p('minute'),

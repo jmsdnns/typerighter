@@ -1,7 +1,3 @@
-import re
-from collections import OrderedDict
-
-from . import base
 from . import primitives
 from . import domains
 from .. import exceptions
@@ -22,7 +18,7 @@ class SumType(primitives.Primitive):
         else:
             err_msg = "No matching variant for value: {}"
             raise exceptions.TypeException(err_msg.format(value))
-            
+
     def is_type_match(self, value):
         for t in self.types:
             print(t.is_type_match(value))
@@ -33,11 +29,11 @@ class SumType(primitives.Primitive):
             return False
 
     def to_schematic(self):
-        l = list()
+        variant_schematics = list()
         for t in self.types:
             schematic = t.to_schematic()
-            l.append(schematic)
-        return (self.__class__.__name__, l)
+            variant_schematics.append(schematic)
+        return (self.__class__.__name__, variant_schematics)
 
     def to_primitive(self, value):
         t = self._find_variant(value)
@@ -61,16 +57,16 @@ class Container(primitives.Primitive):
         domains.LengthDomain(self, max_length, min_length)
 
     def is_falsy(self, value):
-        if value == None or super().is_falsy(value):
+        if value is None or super().is_falsy(value):
             return True
 
         # If calling len works, it's iterable
         try:
             if len(value) > 0:
                 return False
-        except:
+        except Exception:
             pass
-    
+
         return True
 
     def validate_items(self, value):
@@ -82,11 +78,11 @@ class ListType(Container):
     NATIVE = list
 
     def to_schematic(self):
-        l = list()
+        variant_schematics = list()
         for t in self.types:
             schematic = t.to_schematic()
-            l.append(schematic)
-        return (self.__class__.__name__, l)
+            variant_schematics.append(schematic)
+        return (self.__class__.__name__, variant_schematics)
 
     def to_primitive(self, value):
         if self.is_falsy(value):
