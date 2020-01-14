@@ -1,4 +1,3 @@
-import re
 from collections import OrderedDict
 
 from .. import cache
@@ -12,7 +11,8 @@ class UnsetValue(object):
     """
     pass
 
-Unset = UnsetValue() # Module-level Singleton
+
+Unset = UnsetValue()
 
 
 class TypeMeta(type):
@@ -32,7 +32,7 @@ class TypeMeta(type):
 
         # attach collected values
         namespace['_validate_functions'] = validate_functions
-    
+
         # create the new type
         type_class = type.__new__(mcs, name, bases, namespace)
 
@@ -70,10 +70,10 @@ class Type(object, metaclass=TypeMeta):
         """Base initializer for Types. Implements the basic features for Types
         and provides the Type config options, such as setting a default value.
 
-        :param object default: Any value you want to be used as a default inside
-        `to_primitive` and `to_native`.
-        :param bool required: If `True`, `Unset` values will trigger an exception
-        during validation
+        :param object default: Any value you want to be used as a default
+        inside `to_primitive` and `to_native`.
+        :param bool required: If `True`, `Unset` values will trigger an
+        exception during validation
         :param bool strict: Enforces all values are exactly the right type by
         validating without type coercion.
         """
@@ -92,7 +92,7 @@ class Type(object, metaclass=TypeMeta):
         :param object value: The value to inspect
         :return: True or False
         """
-        if value == Unset or value == None:
+        if value == Unset or value is None:
             return True
         return False
 
@@ -108,7 +108,7 @@ class Type(object, metaclass=TypeMeta):
         try:
             self.to_native(value)
             return True
-        except:
+        except Exception:
             return False
 
     def is_type_match(self, value):
@@ -143,7 +143,7 @@ class Type(object, metaclass=TypeMeta):
         """
         if self.is_falsy(value):
             return value
-        
+
         if self.NATIVE != object:
             return self.NATIVE(value)
 
@@ -186,4 +186,3 @@ class Type(object, metaclass=TypeMeta):
         if propobj and isinstance(propobj, Type):
             return
         super().__setattr__(name, value)
-

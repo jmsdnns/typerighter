@@ -1,9 +1,7 @@
 from collections import OrderedDict
-import inspect
 
 from . import base
 from .. import cache
-from .. import exceptions
 from .. import schematics
 from .. import views
 
@@ -61,6 +59,7 @@ class RecordMeta(base.TypeMeta):
 
 class Record(base.Type, metaclass=RecordMeta):
     NATIVE = dict
+
     def __init__(
         self, strict=False, field_filters=None, export_nones=False, **kw
     ):
@@ -95,19 +94,19 @@ class Record(base.Type, metaclass=RecordMeta):
                 yield fn, v
             elif fn not in value and ti.default is not base.Unset:
                 yield fn, ti.default
-    
+
     @base.skip_falsy
     def to_primitive(self, value, **convert_args):
         converter = lambda field_value, ti: ti.to_primitive(field_value)
         return {
-            fn: ti for fn, ti in self._convert(value, converter, **convert_args)
+            k: v for k, v in self._convert(value, converter, **convert_args)
         }
-        
+
     @base.skip_falsy
     def to_native(self, value, **convert_args):
         converter = lambda field_value, ti: ti.to_native(field_value)
         return {
-            fn: ti for fn, ti in self._convert(value, converter, **convert_args)
+            k: v for k, v in self._convert(value, converter, **convert_args)
         }
 
     def to_view(self, data=None):
@@ -120,4 +119,3 @@ class Record(base.Type, metaclass=RecordMeta):
                 ti.validate(value[fn])
             else:
                 ti.validate(base.Unset)
-

@@ -1,5 +1,3 @@
-import inspect
-
 from typerighter import types
 
 
@@ -42,9 +40,9 @@ class View(object):
         return self._record.validate(self._data)
 
     def __iter__(self):
-        for k,v in self._data.items():
+        for k, v in self._data.items():
             if v is not types.Unset:
-                yield k,v
+                yield k, v
 
     def __getattr__(self, name):
         if hasattr(self._record, name):
@@ -78,4 +76,3 @@ def make_view(record, data=None):
     RecordView = type(view_cls_name, (View,), attrs)
 
     return RecordView(record, data=data)
-
