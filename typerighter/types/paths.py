@@ -1,7 +1,9 @@
+from . import base
+from . import primitives
 from . import domains
 
 
-class UnixPathType(types.Primitive):
+class UnixPathType(primitives.Primitive):
     NATIVE = str
     REGEX_UNIX_ABSPATH = "^(\/[\w^ ]+)+\/?([\w.])+[^.]$"
 

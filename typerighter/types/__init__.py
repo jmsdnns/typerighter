@@ -6,6 +6,14 @@ from .primitives import (
     Primitive, BooleanType, IntegerType, FloatType, StringType
 )
 
+from .ids import (
+    UUIDType
+)
+
+from .paths import (
+    UnixPathType
+)
+
 from .timekeeping import (
     DateTimeType, TimeType
 )
