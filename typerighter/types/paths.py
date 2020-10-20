@@ -1,0 +1,14 @@
+from . import domains
+
+
+class UnixPathType(types.Primitive):
+    NATIVE = str
+    REGEX_UNIX_ABSPATH = "^(\/[\w^ ]+)+\/?([\w.])+[^.]$"
+
+    def __init__(self, regex=REGEX_UNIX_ABSPATH, **kw):
+        super().__init__(**kw)
+        domains.RegexDomain(self, regex, re.I + re.X)
+
+    @base.skip_falsy
+    def validate(self, value):
+        super().validate(value)
