@@ -110,7 +110,7 @@ class RegexDomain(Domain):
             return
 
         if instance._regex and not instance._regex.match(value):
-            err_msg = "Value did not match regex: {}"
+            err_msg = "{} regex rejected value: {}"
             raise exceptions.ValidationException(
-                err_msg.format(value, instance.regex)
+                err_msg.format(instance.__class__.__name__, value)
             )
