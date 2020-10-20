@@ -1,6 +1,6 @@
 ![Typerighter](art/logo.png)
 
-Data Types for Cynical Humans™
+Data Types for Cynical Humans
 
 ## Overview
 
