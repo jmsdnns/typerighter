@@ -5,7 +5,7 @@ from . import domains
 
 class UnixPathType(primitives.Primitive):
     NATIVE = str
-    REGEX_UNIX_ABSPATH = "^(\/[\w^ ]+)+\/?([\w.])+[^.]$"
+    REGEX_UNIX_ABSPATH = r"^(\/[\w^ ]+)+\/?([\w.])+[^.]$"
 
     def __init__(self, regex=REGEX_UNIX_ABSPATH, **kw):
         super().__init__(**kw)
