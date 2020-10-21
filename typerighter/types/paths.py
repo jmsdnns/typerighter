@@ -1,3 +1,5 @@
+import re
+
 from . import base
 from . import primitives
 from . import domains
