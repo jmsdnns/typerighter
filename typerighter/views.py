@@ -60,9 +60,16 @@ def make_view(record, data=None):
 
     # Wrap each field of the record in a `Field` instance
     attrs = {}
-    for field_name, _ in record:
-        attr = Field(field_name)
-        attrs[field_name] = attr
+    for field_name, field_type in record:
+        # All fields in the record are at least a View instance
+        field = Field(field_name)
+
+        # Records recurse to create RecordView instances instead
+        if isinstance(field_type, types.Record):
+            field = make_view(field_type, data[field_name])
+
+        # Pair field with a name
+        attrs[field_name] = field
 
     # Collect any factory setters
     for name in dir(record):
@@ -70,6 +77,7 @@ def make_view(record, data=None):
             attr = getattr(record.__class__, name)
             attrs[name] = attr
 
+    # Normalize class name
     view_cls_name = '%sView' % (record.__class__.__name__)
 
     # Instantiate a View definition with the new fields
