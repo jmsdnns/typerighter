@@ -23,7 +23,7 @@ def test_views_have_fields():
     assert srv.author == data['author']
 
 
-def test_views_have_record_views():
+def test_views_have_record_views_as_fields():
     class MusicianRecord(types.Record):
         name = types.StringType(required=True)
 
