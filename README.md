@@ -1,4 +1,4 @@
-![Typerighter](art/logo.png)
+![Typerighter](art/TypeRighter.png)
 
 Data Types for Cynical Humans
 
@@ -61,7 +61,7 @@ Validate data with that record.
 Use a mutable structure instead of a dict for the data.
 
 ```
->>> american_food = artist_type.make_view(band_data)
+>>> american_food = artist_type.to_view(band_data)
 >>> # Promote the reinterpretation of Take On Me
 >>> american_food.website = 'https://soundcloud.com/americanfood/my-take-on-take-on-me'
 >>> american_food.validate()
