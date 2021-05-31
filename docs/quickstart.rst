@@ -86,7 +86,7 @@ behave the way classes usually behave in Python, letting Types focus on the
 definition and configuration of data structures. ::
 
   >>> from typerighter import views
-  >>> artist_view = views.make_view(artist_type)
+  >>> artist_view = views.to_view(artist_type)
   >>> artist_view.name = 'American Food'
   >>> artist_view.website = 'https://soundcloud.com/americanfood/my-take-on-take-on-me'
   >>> artist_view.created_at = '2021-05-28T23:39:30.989377'
