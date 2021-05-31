@@ -15,7 +15,7 @@ def test_views_have_fields():
         'author': 'stevie ray vaughn'
     }
 
-    srv = views.make_view(sr, data)
+    srv = views.to_view(sr, data)
     assert isinstance(srv, views.View)
     assert hasattr(srv, 'name')
     assert hasattr(srv, 'author')
@@ -39,7 +39,7 @@ def test_views_have_record_views_as_fields():
         }
     }
 
-    srv = views.make_view(sr, data)
+    srv = views.to_view(sr, data)
     assert isinstance(srv, views.View)
     assert isinstance(srv.author, views.View)
     assert hasattr(srv, 'name')
@@ -49,7 +49,7 @@ def test_views_have_record_views_as_fields():
     assert srv.author.name == 'stevie ray vaughn'
 
 
-def test_views_partial_data_make_view():
+def test_views_partial_data_to_view():
     class SongRecord(types.Record):
         name = types.StringType(required=True)
         author = types.StringType(required=True)
@@ -57,7 +57,7 @@ def test_views_partial_data_make_view():
 
     sr = SongRecord()
 
-    srv = views.make_view(sr, {
+    srv = views.to_view(sr, {
         'author': 'stevie ray vaughn',
         'instruments': ['guitar', 'drums', 'bass']
     })
@@ -101,3 +101,29 @@ def test_views_partial_data_to_view():
 
     assert hasattr(srv, 'name')
     assert srv.name == None
+
+
+def test_views_have_starting_types():
+    class SongRecord(types.Record):
+        name = types.StringType(required=True)
+        author = types.StringType()
+        created_at = types.DateTimeType()
+
+    import datetime
+
+    sr = SongRecord()
+    data = {
+        'name': 'pride & joy',
+        'author': 'stevie ray vaughn',
+        'created_at': datetime.datetime.now()
+    }
+
+    pnj = views.to_view(sr, data, primitive=True)
+    assert isinstance(pnj.created_at, str)
+
+    pnj = views.to_view(sr, data)
+    assert isinstance(pnj.created_at, datetime.datetime)
+
+    # primitive is favored if both are True
+    pnj = views.to_view(sr, data, primitive=True, native=True)
+    assert isinstance(pnj.created_at, str)

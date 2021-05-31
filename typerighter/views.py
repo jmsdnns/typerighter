@@ -26,9 +26,18 @@ class View(object):
     modeled after the record that can store data in a familiar object oriented
     manner.
     """
-    def __init__(self, record, data=None):
+    def __init__(self, record, data=None, native=True, primitive=False):
         self._record = record
-        self._data = data
+        self._config = {}
+
+        if primitive:
+            self._config['primitive'] = True
+            self._data = self._record.to_primitive(data)
+        elif native:
+            self._config['native'] = True
+            self._data = self._record.to_native(data)
+        else:
+            self._data = data
 
     def to_primitive(self, **convert_args):
         return self._record.to_primitive(self._data, **convert_args)
@@ -49,7 +58,7 @@ class View(object):
             return getattr(self._record, name)
 
 
-def make_view(record, data=None):
+def to_view(record, data=None, **view_config):
     """Takes both a record and some data and produces View instance.
 
     :param Type record: The type that defines the view's shape
@@ -66,7 +75,7 @@ def make_view(record, data=None):
 
         # Records recurse to create RecordView instances instead
         if isinstance(field_type, types.Record):
-            field = make_view(field_type, data[field_name])
+            field = to_view(field_type, data[field_name])
 
         # Pair field with a name
         attrs[field_name] = field
@@ -83,4 +92,4 @@ def make_view(record, data=None):
     # Instantiate a View definition with the new fields
     RecordView = type(view_cls_name, (View,), attrs)
 
-    return RecordView(record, data=data)
+    return RecordView(record, data=data, **view_config)
