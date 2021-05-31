@@ -109,8 +109,8 @@ class Record(base.Type, metaclass=RecordMeta):
             k: v for k, v in self._convert(value, converter, **convert_args)
         }
 
-    def to_view(self, data=None):
-        return views.make_view(self, data=data)
+    def to_view(self, data=None, **view_config):
+        return views.to_view(self, data=data, **view_config)
 
     @base.skip_falsy
     def validate_fields(self, value):
