@@ -35,13 +35,13 @@ class SumType(primitives.Primitive):
             variant_schematics.append(schematic)
         return (self.__class__.__name__, variant_schematics)
 
-    def to_primitive(self, value):
+    def to_primitive(self, value, **kw):
         t = self._find_variant(value)
-        return t.to_primitive(value)
+        return t.to_primitive(value, **kw)
 
-    def to_native(self, value):
+    def to_native(self, value, **kw):
         t = self._find_variant(value)
-        return t.to_native(value)
+        return t.to_native(value, **kw)
 
     def validate_by_variant_match(self, value):
         t = self._find_variant(value)
@@ -84,17 +84,17 @@ class ListType(Container):
             variant_schematics.append(schematic)
         return (self.__class__.__name__, variant_schematics)
 
-    def to_primitive(self, value):
+    def to_primitive(self, value, **kw):
         if self.is_falsy(value):
             return value
 
-        return [self.type.to_primitive(v) for v in value]
+        return [self.type.to_primitive(v, **kw) for v in value]
 
-    def to_native(self, value):
+    def to_native(self, value, **kw):
         if self.is_falsy(value):
             return value
 
-        return [self.type.to_native(v) for v in value]
+        return [self.type.to_native(v, **kw) for v in value]
 
     def validate_items(self, value):
         if self.is_falsy(value):
