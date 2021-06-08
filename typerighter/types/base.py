@@ -58,24 +58,22 @@ def skip_falsy(method):
 
 
 class Type(object, metaclass=TypeMeta):
-    """This class represents the top, and thus most ambiguous, point of the
-    Typerighter hierarchy.
 
-    It's purpose is to define the baseline expectations for every other `Type`
-    in this library.
-    """
     NATIVE = object  # identity function
 
     def __init__(self, default=Unset, required=False, strict=False):
-        """Base initializer for Types. Implements the basic features for Types
+        """This class represents the top, and thus most ambiguous, point of the
+        Typerighter hierarchy.
+
+        It's purpose is to define the baseline expectations for every other `Type`
+        in this library.
+
+        Base initializer for Types. Implements the basic features for Types
         and provides the Type config options, such as setting a default value.
 
-        :param object default: Any value you want to be used as a default
-        inside `to_primitive` and `to_native`.
-        :param bool required: If `True`, `Unset` values will trigger an
-        exception during validation
-        :param bool strict: Enforces all values are exactly the right type by
-        validating without type coercion.
+        :param object default: Any value you want to be used as a default inside `to_primitive` and `to_native`.
+        :param bool required: If `True`, `Unset` values will trigger an exception during validation
+        :param bool strict: Enforces all values are exactly the right type by validating without type coercion.
         """
         self.required = required
         self.strict = strict
