@@ -1,4 +1,4 @@
-![Typerighter](art/TypeRighter-logo.png)
+![Typerighter](art/TypeRighter.png)
 
 Data Types for Cynical Humans
 
