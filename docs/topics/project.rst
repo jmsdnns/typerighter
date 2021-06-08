@@ -1,25 +1,24 @@
-.. developing_architecture
+.. contributing_project_architecture
 
-============
-Architecture
-============
+Project Architecture
+====================
 
 TypeRighter is a toolkit for structuring, validating, and reshaping data.
 
 Using the toolkit means using one or more of the following things:
 
-+ :code:`Type`: a classification of some data which describes how to verify arbitrary
+- :code:`Type`: a classification of some data which describes how to verify arbitrary
   data for coherence.
-+ :code:`Record`: a structure of data that has type instances, called _fields_, for
+- :code:`Record`: a structure of data that has type instances, called _fields_, for
   attributes.
-+ :code:`Schematic`: the map of arguments used to instantiate either a :code:`Type` or a
+- :code:`Schematic`: the map of arguments used to instantiate either a :code:`Type` or a
   :code:`Record`.
-+ :code:`View`: a class that let's you interact with a :code:`Record` and some data as
+- :code:`View`: a class that let's you interact with a :code:`Record` and some data as
   though it were an object instance.
 
 
 Metaprogramming
-===============
+---------------
 
 The design of both :code:`Type` and :code:`Record` relies on metaprogramming to
 collect information about the way you choose to use them.
@@ -31,28 +30,28 @@ running.
 More specifically, TypeRighter can inspect the attributes and functions on any
 type at the moment a user creates one. This allows it to:
 
-+ make lists of all member variables
-+ make a list of all functions that start with `someprefix_`
+- make lists of all member variables
+- make a list of all functions that start with `someprefix_`
 
 And with that metadata users can:
 
-+ map out the steps for complex data validation
-+ generate a SQL statement automatically
-+ easily define datatype conversion pipelines
+- map out the steps for complex data validation
+- generate a SQL statement automatically
+- easily define datatype conversion pipelines
 
 
-Attributes
-==========
+Metadata
+--------
 
 All :code:`Type` and :code:`Record` definitions have values for:
 
-+ :code:`_validate_functions`
-+ :code:`_schematic`
+- :code:`_validate_functions`
+- :code:`_schematic`
 
 Records use two extra fields:
 
-+ :code:`_fields`
-+ :code:`_field_functions`
+- :code:`_fields`
+- :code:`_field_functions`
 
 
 Types
@@ -96,3 +95,15 @@ It is also possible to use a function to generate field values.
 Functions that behave like fields have a prefix :code:`field_`, similar to the
 behavior for validation functions. This field is stored as
 :code:`_field_functions`.
+
+
+Views
+-----
+
+We get views
+
+
+Errors
+------
+
+Validation throws exceptions and we always throw exceptions

@@ -1,9 +1,9 @@
-.. api_type
+.. types_base
 
 ====
-Type
+Base
 ====
 
 .. automodule:: typerighter.types.base
-   :members:
    :inherited-members:
+   :members:

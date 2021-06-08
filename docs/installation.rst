@@ -19,4 +19,4 @@ Optional Packages
 =================
 
 The optional packages are for running unittests or generation documentation and
-are explained in the :doc:`developing/devenv` doc.
+are explained in the :doc:`contributing/environment` doc.
