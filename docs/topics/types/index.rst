@@ -22,7 +22,6 @@ it accumulates a list of validation functions, including across subclasses.
 .. toctree::
    :maxdepth: 2
 
-   base
    primitive
    record
    composite
