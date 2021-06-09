@@ -25,7 +25,7 @@ setup(
             'pytest-cov',
             'pycodestyle',
             'flake8',
-            'tox'
+            'jedi'
         ], 
         'docs': [
             'sphinx',

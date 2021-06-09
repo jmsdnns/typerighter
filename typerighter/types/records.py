@@ -1,3 +1,4 @@
+
 from collections import OrderedDict
 
 from . import base
@@ -73,38 +74,92 @@ class Record(base.Type, metaclass=RecordMeta):
             yield field_name, type_instance
 
     def _filter(self, value, fields=None):
+        """
+        A generator for iterating across the types embedded in the record.
+
+        Fields can be filtered by providing a list of strings to the ``fields``
+        keyword arg.
+        """
         for field_name, field_type in self:
-            # Field name is in fields list and has a value
-            if fields and field_name in fields and field_name in value:
-                yield field_name, field_type
-            # Field name has value
-            elif field_name in value:
-                yield field_name, field_type
-            # Field can provide a value
-            elif field_type.default:
-                yield field_name, field_type
+            if fields and len(fields) > 0 and field_name in fields:
+                if field_name in value or field_type.default:
+                    yield field_name, field_type
+            elif fields is None:
+                if field_name in value or field_type.default:
+                    yield field_name, field_type
+
+    def _parse_field_list(self, fields):
+        """
+        Takes a list of strings that represent fields or nested fields and
+        parsed them into two structures, a list of all the fields intended for
+        this record, and a dict represented nested records and fields intended
+        for the next recursive iteration.
+
+        More simply, a structure like this:
+
+          fields = ['name', 'hobby.name', 'hobby.started_at']
+
+        Would return a structure like this:
+
+          {'name': None, 'hobby': ['name', 'started_at']}
+
+        The caller can then look for the name field when it works on the nested
+        record named ``hobby``.
+
+        The values are intended to be passed directly into the conversion
+        function, including ``None``, which indicates no filtering is used.
+        """
+        subfield_map = {}
+
+        if not fields:
+            return (None, subfield_map)
+
+        if fields:
+            for f in fields:
+                record_path = f.split(".")
+                x, xs = record_path[0], '.'.join(record_path[1:])
+                if len(xs) > 0:
+                    if x not in subfield_map:
+                        subfield_map[x] = []
+                    subfield_map[x].append(xs)
+                else:
+                    subfield_map[x] = None
+
+        top_level_fields = subfield_map.keys() or None
+        return (top_level_fields, subfield_map)
 
     def _convert(self, value, converter, fields=None):
-        for fn, ti in self._filter(value, fields=fields):
-            if fields and fn in fields and fn in value:
-                v = converter(value[fn], ti)
+        """
+        Converts all the fields in a record, using the converter function, and
+        returns a dictionary of field names and values.
+
+        Supports using a list of fields to filter which are included in the
+        output structure.
+        """
+        top_level_fields, subfield_map = self._parse_field_list(fields)
+
+        for fn, ti in self._filter(value, fields=top_level_fields):
+            if fn in value:
+                subfields = None
+                if fn in subfield_map and subfield_map[fn]:
+                    subfields = subfield_map[fn]
+                    v = converter(value[fn], ti, fields=subfields)
+                else:
+                    v = converter(value[fn], ti)
                 yield fn, v
-            elif fn in value:
-                v = converter(value[fn], ti)
-                yield fn, v
-            elif fn not in value and ti.default is not base.Unset:
+            elif ti.default is not base.Unset:
                 yield fn, ti.default
 
     @base.skip_falsy
     def to_primitive(self, value, **convert_args):
-        converter = lambda field_value, ti: ti.to_primitive(field_value)
+        converter = lambda value, ti, **kw: ti.to_primitive(value, **kw)
         return {
             k: v for k, v in self._convert(value, converter, **convert_args)
         }
 
     @base.skip_falsy
     def to_native(self, value, **convert_args):
-        converter = lambda field_value, ti: ti.to_native(field_value)
+        converter = lambda value, ti, **kw: ti.to_native(value, **kw)
         return {
             k: v for k, v in self._convert(value, converter, **convert_args)
         }
