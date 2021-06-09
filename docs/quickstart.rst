@@ -174,19 +174,39 @@ A View is a mutable, configurable structure that stores Record data. Views
 behave the way classes usually behave in Python, letting Types focus on the
 definition and configuration of data structures. ::
 
-  >>> from typerighter import views
-  >>> artist_view = views.to_view(artist_type)
+  >>> artist = artist_type.to_view(artist_data)
 
 Working with a view looks about the same as if it were any Python class. ::
 
-  >>> artist_view.name = 'American Food'
-  >>> artist_view.website = 'https://soundcloud.com/americanfood/my-take-on-take-on-me'
-  >>> artist_view.created_at = '2021-05-28T23:39:30.989377'
+  >>> artist.name
+  'American Food'
+  >>> artist.website
+  'https://soundcloud.com/americanfood/my-take-on-take-on-me'
+  >>> artist.created_at
+  '2021-05-29T00:00:01.001337'
 
 It also knows how to validate data, but assumes it validates itself. ::
 
-  >>> artist_view.validate()
+  >>> artist.validate()
 
 It also knows how to serialize the data it stores. ::
 
-  >>> artist_view.to_native()
+  >>> artist.to_native()
+  {
+      'name': 'American Food',
+      'created_at': datetime.datetime(2021, 5, 29, 0, 0, 1, 1337),
+      'albums': [{
+          'name': 'Internet On The TV',
+          'created_at': datetime.datetime(2021, 5, 29, 0, 0, 1, 1337),
+          'songs': [{
+              'name': 'Cane Spiders (mispoke)',
+              'created_at': datetime.datetime(2021, 5, 29, 0, 0, 0, 1337),
+              'lyrics': "Oh my gawd! It's that red dot! Gonna catch that..."
+          }, {
+              'name': 'My Take On Take On Me',
+              'created_at': datetime.datetime(2021, 5, 30, 0, 0, 0, 1337),
+              'lyrics': 'I know. I know. I talk in numbers...'
+          }]
+      }]
+  }
+
