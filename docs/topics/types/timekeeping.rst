@@ -1,4 +1,4 @@
-.. api_timekeeping
+.. types_timekeeping
 
 ============
 Time Keeping

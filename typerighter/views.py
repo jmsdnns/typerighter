@@ -40,12 +40,21 @@ class View(object):
             self._data = data
 
     def to_primitive(self, **convert_args):
+        """
+        Uses the record's ``to_primitive`` to convert view data.
+        """
         return self._record.to_primitive(self._data, **convert_args)
 
     def to_native(self, **convert_args):
+        """
+        Uses the record's ``to_native`` to convert view data.
+        """
         return self._record.to_native(self._data, **convert_args)
 
     def validate(self):
+        """
+        Uses the record's ``validate`` function with view data.
+        """
         return self._record.validate(self._data)
 
     def __iter__(self):

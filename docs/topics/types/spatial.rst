@@ -1,8 +1,8 @@
-.. api_spatial
+.. types_spatial
 
-=======
-Spatial
-=======
+=============
+Spatial Types
+=============
 
 .. automodule:: typerighter.types.spatial
    :members:

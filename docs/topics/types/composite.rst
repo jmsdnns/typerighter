@@ -1,4 +1,4 @@
-.. api_composites
+.. types_composites
 
 ===============
 Composite Types

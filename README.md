@@ -1,42 +1,25 @@
-![Typerighter](art/logo.png)
+![Typerighter](art/TypeRighter-bw.png)
 
 Data Types for Cynical Humans
 
 ## Overview
 
-Welcome to Typerighter, a project that makes it easy to with common types of
-data using roughly the same ideas as type systems. Instead of defining what a
-string is, it uses strings to define what URLs or datetimes are.
+Welcome to TypeRighter, a project that wants to make it easier to deal with
+data that is messier than we'd prefer.
 
-Its concepts are simple and built around ideas that require little effort for
-effective data management.
+A user can create *types* or *records* and use those to validate data, convert
+it to and from native Python types, or adjust its structure somehow.
 
-### Schematics Rethink
-
-I am the original author of [https://github.com/schematics/schematics](Schematics).
-
-A community took over the Schematics project a while back, but I found I needed to solve the roughly the same validation and conversion problems in every new system I encountered, giving me an opportunity to continue learning about the problem space.
-
-Typerighter is how I think about the problem ten years after Schematics.
+TypeRighter is a fundamentally a system for structuring data such that it can
+be used inside Python's metaprogramming API.
 
 ## Read The Docs
+
+If you are new to TypeRighter, the quickstart guide should be your first stop.
 
 Learn more about it with [our great documentation](https://typerighter.readthedocs.io/en/latest/).
 
 ## Example
-
-Define a type by instantiating it with config parameters.
-
-```
->>> string_type = types.StringType(max_length=12)
-```
-
-Validate data with that type definition.
-
-```
->>> short_string = 'Take Five'
->>> string_type.validate(short_string)
-```
 
 Define a record with fields and instantiate it.
 
@@ -44,25 +27,28 @@ Define a record with fields and instantiate it.
 >>> class Artist(types.Record):
 ...     name = types.StringType(required=True)
 ...     website = types.URLType()
+...     created_at = types.DateTimeType()
 ...
 >>> artist_type = Artist()
 ```
 
-Validate data with that record.
+Validate some data with that record.
 
 ```
 >>> band_data = {
-...     'name': u'American Food',
-...     'website': 'https://soundcloud.com/americanfood'
+...     'name': 'American Food',
+...     'website': 'https://soundcloud.com/americanfood',
+...     'created_at': '2021-05-28T23:39:30.989377'
 ... })
 >>> artist_type.validate(band_data)
 ```
 
-Use a mutable structure instead of a dict for the data.
+Get all values back in Python native types for the listed fields.
 
 ```
->>> american_food = artist_type.make_view(band_data)
->>> # Promote the reinterpretation of Take On Me
->>> american_food.website = 'https://soundcloud.com/americanfood/my-take-on-take-on-me'
->>> american_food.validate()
+>>> artist_type.to_native(band_data, fields=['name', 'created_at'])
+{
+    'name': u'American Food',
+    'created_at': datetime.datetime(2021, 5, 28, 23, 39, 30, 989377)
+}
 ```

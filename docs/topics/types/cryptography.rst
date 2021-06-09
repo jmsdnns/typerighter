@@ -1,4 +1,4 @@
-.. api_cryptography
+.. types_cryptography
 
 ============
 Cryptography

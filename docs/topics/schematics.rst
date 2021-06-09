@@ -1,8 +1,10 @@
-.. schematic
+.. schematics
 
-=========
-Schematic
-=========
+============
+Type Schemas
+============
+
+Or, a *schematic*.
 
 .. automodule:: typerighter.schematics
    :members:

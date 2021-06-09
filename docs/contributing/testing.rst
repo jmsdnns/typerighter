@@ -1,4 +1,4 @@
-.. developing_testing
+.. contributing_testing
 
 =======
 Testing

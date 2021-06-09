@@ -1,4 +1,4 @@
-.. api_net
+.. types_net
 
 =================
 Network Addresses
