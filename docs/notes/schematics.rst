@@ -54,10 +54,7 @@ class instance, we make it clear the structure is just one way of looking at
 the data, and this structure can be configured for unique behaviors that other
 views of the same data do not have, etc.
 
-Please Try It
-=============
+You Should Try It
+=================
 
-If you are here from the Schematics community, please try this library!
-
-I believe it is a significantly better design and I would love to share the
-work with anyone interested enough to contribute.
+If you are here from the Schematics community, you're gonna love this library!
