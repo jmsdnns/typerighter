@@ -1,7 +1,7 @@
-.. cookbook_index
+.. cookbook_json_apis
 
 =========
 JSON APIs
 =========
 
-Word, dude
+Word

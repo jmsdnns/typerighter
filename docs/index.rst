@@ -43,6 +43,7 @@ Happy hacking.
    :maxdepth: 2
    :caption: Cookbook
 
+   cookbook/csvs
    cookbook/json_api
 
 .. toctree::
@@ -57,4 +58,5 @@ Happy hacking.
    :maxdepth: 2
    :caption: Additional Notes
 
+   notes/schematics
    notes/license

@@ -210,3 +210,10 @@ It also knows how to serialize the data it stores. ::
       }]
   }
 
+Filtering works with views too. ::
+
+  >>> artist.to_native(fields=['name', 'created_at'])
+  {
+      'name': 'American Food',
+      'created_at': datetime.datetime(2021, 5, 29, 0, 0, 1, 1337)
+  }
