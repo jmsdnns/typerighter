@@ -4,6 +4,11 @@ from .. import exceptions
 
 
 class SumType(primitives.Primitive):
+    """
+    Some languages call this a *Union Type*. The idea is to allow validation
+    to pass if just one validator, from a list of two or more types, accepts
+    it.
+    """
     def __init__(self, *types, **kwargs):
         super(SumType, self).__init__(**kwargs)
         self.types = types
@@ -51,6 +56,14 @@ class SumType(primitives.Primitive):
 
 
 class Container(primitives.Primitive):
+    """
+    A `Container` is a foundational type, like `Primitive`, that allows some
+    number of things to be held in a group, with no additional type checking
+    past what a `Primitive` does.
+
+    New composite types should subclass this base type. It is not meant to be
+    used directly.
+    """
     def __init__(self, type, max_length=None, min_length=None, **kw):
         super().__init__(**kw)
         self.type = type
@@ -75,6 +88,9 @@ class Container(primitives.Primitive):
 
 
 class ListType(Container):
+    """
+    A `ListType` is a `Container` implemented with a `list`.
+    """
     NATIVE = list
 
     def to_schematic(self):
