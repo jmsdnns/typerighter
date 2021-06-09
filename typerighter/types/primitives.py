@@ -70,25 +70,11 @@ class BooleanType(Primitive):
 
 
 class StringType(Primitive):
-    """
-    A type that captures the core needs for validating strings, which can then
-    be extended in subclasses for validating specific types of strings.
+    """A type that captures the core needs for validating strings, which can
+    then be extended in subclasses for validating specific types of strings.
 
     Validation can be extended by using `min_length` or `max_length`, or by
     providing a regular expression compatible with Python's `re` module.
-
-    Let's consider a regex that only accepts two words: `^\w+ \w+$`.
-
-      >>> custom_string = types.StringType(regex='^\w+ \w+$')
-
-    Two words pass validation.
-
-      >>> custom_string.validate("two words")
-
-    Four do not.
-
-      >>> custom_string.validate("this is four words")
-      typerighter.exceptions.ValidationException: Value did not match regex: ^\w+ \w+$
     """
     NATIVE = str
 
